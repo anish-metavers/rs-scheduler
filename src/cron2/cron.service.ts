@@ -16,6 +16,8 @@ export class Cron2Service {
       response1 = await axios.get(url1);
       data1 = response1.data;
     } catch (error) {
+      console.log(error);
+
       data1 = error.response.data;
     }
     try {
@@ -26,8 +28,8 @@ export class Cron2Service {
           try {
             response2 = await axios.get(url2 + event.eventId);
           } catch (error) {
+            console.log(error);
             data2 = error.response.data;
-            //console.log(error);
           }
           data2 = response2.data.data;
 
@@ -90,7 +92,7 @@ export class Cron2Service {
         }
       }
     } catch (error) {
-      //console.log(error);
+      console.log(error);
     }
   }
 }

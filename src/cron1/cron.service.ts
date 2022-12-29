@@ -18,6 +18,8 @@ export class Cron1Service {
       response1 = await axios.get(url1);
       data1 = response1.data;
     } catch (error) {
+      console.log(error);
+
       data1 = error.response.data;
     }
     // console.log(data);
@@ -72,6 +74,8 @@ export class Cron1Service {
           try {
             response2 = await axios.get(url2 + event.eventId);
           } catch (error) {
+            console.log(error);
+
             data2 = error.response.data;
             //console.log(error);
           }
@@ -88,7 +92,7 @@ export class Cron1Service {
                 },
               });
               if (find_selectionid) {
-               // this.logger.error('Selection id all ready exist');
+                // this.logger.error('Selection id all ready exist');
                 continue;
               }
               await global.DB.T_selectionid.create({
@@ -134,7 +138,7 @@ export class Cron1Service {
                 },
               });
               if (find_selectionid) {
-               // this.logger.error('Selection id all ready exist');
+                // this.logger.error('Selection id all ready exist');
               } else {
                 await global.DB.T_selectionid.create({
                   marketid: item.market_id,
@@ -174,7 +178,7 @@ export class Cron1Service {
         }
       }
     } catch (error) {
-      //console.log(error);
+      console.log(error);
     }
   }
 }
