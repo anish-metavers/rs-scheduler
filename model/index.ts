@@ -31,7 +31,7 @@ const DATABASE = async () => {
       T_rsfancy_result: T_rsfancy_result(sequelize, DataTypes),
     };
 
-    //await sequelize.sync({ force: true });
+    // await sequelize.sync({ force: true });
 
     global.DB = db;
   } catch (error) {
