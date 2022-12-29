@@ -5,6 +5,6 @@ import DATABASE from 'model';
 async function bootstrap() {
   await DATABASE();
   const app = await NestFactory.create(AppModule);
-  await app.listen(3000);
+  await app.listen(9000);
 }
 bootstrap();

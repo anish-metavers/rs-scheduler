@@ -60,7 +60,7 @@ export class Cron3Service {
 
           const data = apiData.filter((i) => i.fancyid == item.market_id);
 
-          if (item.game_over == 0) {
+          if (item.game_over == 1) {
             const fancyid = await global.DB.T_rsfancy_result.findOne({
               where: { fancyid: item.market_id },
             });
