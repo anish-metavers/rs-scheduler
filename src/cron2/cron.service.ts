@@ -39,6 +39,11 @@ export class Cron2Service {
               where: { runnerid: item.marketId, eventid: item.eventId },
             });
             if (find_matchfancy) {
+              if (find_matchfancy.remarks != item.info) {
+                await find_matchfancy.update({
+                  remarks: item.info,
+                });
+              }
               //console.log('Already marketid or eventid exist');
               continue;
             }
@@ -49,6 +54,7 @@ export class Cron2Service {
               name: item.title,
               runnerid: item.marketId,
               oddstype: 'F2',
+              remarks: item.info,
             });
           }
 
@@ -58,6 +64,11 @@ export class Cron2Service {
               where: { runnerid: item.marketId, eventid: item.eventId },
             });
             if (find_matchfancy) {
+              if (find_matchfancy != item.info) {
+                await find_matchfancy.update({
+                  remarks: item.info,
+                });
+              }
               //console.log('Already marketid or eventid exist');
               continue;
             }
@@ -68,6 +79,7 @@ export class Cron2Service {
               name: item.title,
               runnerid: item.marketId,
               oddstype: 'F3',
+              remarks: item.remarks,
             });
           }
 
@@ -77,6 +89,11 @@ export class Cron2Service {
               where: { runnerid: item.marketId, eventid: item.eventId },
             });
             if (find_matchfancy) {
+              if (find_matchfancy.remarks != item.info) {
+                await find_matchfancy.update({
+                  remarks: item.info,
+                });
+              }
               //console.log('Already marketid or eventid exist');
               continue;
             }
@@ -87,6 +104,7 @@ export class Cron2Service {
               name: item.title,
               runnerid: item.marketId,
               oddstype: 'OE',
+              remarks: item.info,
             });
           }
         }

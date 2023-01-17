@@ -59,6 +59,7 @@ export class Cron3Service {
             //console.log('===========================================', series);
 
             for (let item of series.items) {
+              if (!item) continue;
               //console.log('===========================', item.market_id);
 
               const data = apiData.filter((i) => i.fancyid == item.market_id);
@@ -72,10 +73,11 @@ export class Cron3Service {
                     await global.DB.T_rsfancy_result.create({
                       fancyid: item.market_id,
                       matchid: item.event_id,
-                      result:
-                        data[0].oddstype == 'F3' || data[0].oddstype == 'OE'
-                          ? item.win_result
-                          : 'Awaiting',
+                      result: item.win_result,
+                      // result:
+                      // data[0].oddstype == 'F3' || data[0].oddstype == 'OE'
+                      //   ? item.win_result
+                      //   : 'awaiting',
                     });
                 }
               }

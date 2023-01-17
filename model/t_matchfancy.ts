@@ -77,8 +77,8 @@ const model = (sequelize: Sequelize, DataType: any) => {
         type: DataType.STRING,
       },
       status: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: true,
+        type: DataTypes.STRING,
+        defaultValue: 'OPEN',
       },
       suspendedby: {
         type: DataType.STRING,
@@ -88,7 +88,8 @@ const model = (sequelize: Sequelize, DataType: any) => {
         defaultValue: 0,
       },
       isbettable: {
-        type: DataTypes.BOOLEAN,
+        type: DataTypes.STRING,
+        defaultValue: 'true',
       },
       maxbet: {
         type: DataTypes.INTEGER,

@@ -23,14 +23,11 @@ export class Cron1Service {
       data1 = error.response.data;
     }
     // console.log(data);
-
     try {
       series = data1.data;
-
       //console.table(series);
       for (let item of series) {
         //console.table(item.event);
-
         let sportId = item.sportId;
 
         for (let event of item.event) {

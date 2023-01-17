@@ -16,6 +16,11 @@ const DATABASE = async () => {
       port: Number(process.env.PORT),
       dialect: 'mysql',
       logging: false,
+      dialectOptions: {
+        dateStrings: true,
+        typeCast: true,
+      },
+      timezone: '+05:30',
     },
   );
   try {
@@ -31,7 +36,7 @@ const DATABASE = async () => {
       T_rsfancy_result: T_rsfancy_result(sequelize, DataTypes),
     };
 
-    await sequelize.sync({ force: true });
+    // await sequelize.sync({ force: true });
 
     global.DB = db;
   } catch (error) {
