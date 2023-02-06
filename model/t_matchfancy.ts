@@ -30,7 +30,7 @@ const model = (sequelize: Sequelize, DataType: any) => {
         defaultValue: 0,
       },
       isactive: {
-        type: DataType.BOOLEAN,
+        type: DataType.STRING,
         defaultValue: true,
       },
       isplay: {
@@ -106,6 +106,10 @@ const model = (sequelize: Sequelize, DataType: any) => {
         type: DataType.STRING,
         defaultValue: 'Cricket',
       },
+      is_redis_updated: {
+        type: DataTypes.STRING,
+        defaultValue: true
+      }
     },
     {
       timestamps: true,

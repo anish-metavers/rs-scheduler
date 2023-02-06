@@ -34,8 +34,8 @@ const model = (sequelize: Sequelize, DataType: any) => {
         defaultValue: 0,
       },
       isactive: {
-        type: DataTypes.INTEGER,
-        defaultValue: 1,
+        type: DataTypes.STRING,
+        defaultValue: true,
       },
       ispause: {
         type: DataType.INTEGER,
@@ -91,11 +91,27 @@ const model = (sequelize: Sequelize, DataType: any) => {
       },
       max_bet_rate: {
         type: DataTypes.INTEGER,
-        defaultValue: 1000000,
+        defaultValue: 100,
       },
       min_bet_rate: {
         type: DataTypes.INTEGER,
-        defaultValue: 100,
+        defaultValue: 0,
+      },
+      betdelay: {
+        type: DataTypes.INTEGER,
+        defaultValue: 3,
+      },
+      minbet: {
+        type: DataTypes.INTEGER,
+        defaultValue: 10,
+      },
+      maxbet: {
+        type: DataTypes.INTEGER,
+        defaultValue: 10000,
+      },
+      is_redis_updated: {
+        type: DataTypes.STRING,
+        defaultValue: true,
       },
     },
     {

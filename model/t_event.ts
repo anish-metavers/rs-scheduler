@@ -71,7 +71,7 @@ const model = (sequelize: Sequelize, DataType: any) => {
         defaultValue: 'RS',
       },
       isactive: {
-        type: DataTypes.BOOLEAN,
+        type: DataTypes.STRING,
         defaultValue: true,
       },
       ismysqlupdated: {
@@ -149,6 +149,10 @@ const model = (sequelize: Sequelize, DataType: any) => {
         type: DataType.DATE,
         field: 'updatedon',
       },
+      is_redis_updated: {
+        type: DataType.STRING,
+        defaultValue: true,
+      }
     },
     {
       timestamps: true,

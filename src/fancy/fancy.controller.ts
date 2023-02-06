@@ -20,9 +20,10 @@ export class FancyController {
   //   return this.fancyService.create(createFancyDto);
   // }
 
-  @Get(':event_id')
-  async findAll(@Param('event_id') event_id: string) {
-    const getFancy = await this.fancyService.findAll(event_id);
+  @Get()
+  async findAll(@Body() createFancyDto: CreateFancyDto) {
+    const getFancy = await this.fancyService.findAll(createFancyDto);
+    // console.log(createFancyDto);
     return getFancy;
   }
 

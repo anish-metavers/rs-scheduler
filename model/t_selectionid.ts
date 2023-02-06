@@ -24,6 +24,10 @@ const model = (sequelize: Sequelize, DataType: any) => {
       selectionid: {
         type: DataTypes.INTEGER,
       },
+      is_redis_updated: {
+        type: DataType.STRING,
+        defaultValue: true,
+      },
     },
     {
       timestamps: true,

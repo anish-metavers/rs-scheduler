@@ -10,8 +10,10 @@ export class FancyService {
   //   return 'This action adds a new fancy';
   // }
 
-  async findAll(event_id: string) {
-    const result = await this.cacheManager.get(`eventId:${event_id}`);
+  async findAll(createFancyDto: CreateFancyDto) {
+    const result = await this.cacheManager.get(
+      `eventId:${createFancyDto.eventId}`,
+    );
     if (!result) return [];
     return result;
     // const allEvent = await global.DB.T_event.findAll({

@@ -1,1 +1,3 @@
-export class CreateFancyDto {}
+export class CreateFancyDto {
+  eventId: string;
+}
