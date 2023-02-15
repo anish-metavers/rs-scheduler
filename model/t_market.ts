@@ -109,10 +109,10 @@ const model = (sequelize: Sequelize, DataType: any) => {
         type: DataTypes.INTEGER,
         defaultValue: 10000,
       },
-      is_redis_updated: {
-        type: DataTypes.STRING,
-        defaultValue: true,
-      },
+      // is_redis_updated: {
+      //   type: DataTypes.STRING,
+      //   defaultValue: true,
+      // },
     },
     {
       timestamps: true,

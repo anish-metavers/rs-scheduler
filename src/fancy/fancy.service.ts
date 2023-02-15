@@ -10,24 +10,68 @@ export class FancyService {
   //   return 'This action adds a new fancy';
   // }
 
-  async findAll(createFancyDto: CreateFancyDto) {
-    const result = await this.cacheManager.get(
-      `eventId:${createFancyDto.eventId}`,
-    );
-    if (!result) return [];
-    return result;
-    // const allEvent = await global.DB.T_event.findAll({
-    //   attributes: ['eventid'],
-    // });
-    // const allEventid = allEvent.map((item) => item.eventid);
-    // for (let item of allEvent) {
-    //   console.log(item.eventid);
-    // }
+  async findByEventid(event_id: string) {
+    const Data_Object = {
+      Odds: [],
+      Bookmaker: [],
+      Fancy: [],
+      Fancy2: [],
+      Fancy3: [],
+      Khado: [],
+      Ball: [],
+      Meter: [],
+      OddEven: [],
+    };
+    const queryKeys: string[] = [];
+    const keys: any = await this.cacheManager.get(`${event_id}`);
+    for (const market_id in keys) {
+      queryKeys.push(`${event_id}::${market_id}`);
+    }
+    const fetchedData: any = await this.cacheManager.store.mget(...queryKeys);
+    // console.log(fetchedData.length);
+    // console.log(Object.keys(keys).length);
+    const keysArr = Object.keys(keys);
+    for (let i = 0; i < keysArr.length; i++) {
+      if (
+        keys[keysArr[i]] == 'Match Odds' ||
+        keys[keysArr[i]] == 'Completed Match' ||
+        keys[keysArr[i]] == 'Tied Match'
+      ) {
+        Data_Object.Odds.push(fetchedData[i]);
+      } else if (
+        keys[keysArr[i]] == 'Bookmaker 0%Comm' ||
+        keys[keysArr[i]] == 'TOSS'
+      ) {
+        Data_Object.Bookmaker = [...Data_Object.Bookmaker, ...fetchedData[i]];
+      } else if (keys[keysArr[i]] == 'F2') {
+        Data_Object.Fancy2 = [...Data_Object.Fancy2, ...fetchedData[i]];
+      } else if (keys[keysArr[i]] == 'F3') {
+        Data_Object.Fancy3 = [...Data_Object.Fancy3, ...fetchedData[i]];
+      } else if (keys[keysArr[i]] == 'OE') {
+        Data_Object.OddEven = [...Data_Object.OddEven, ...fetchedData[i]];
+      }
+    }
+    return Data_Object;
   }
 
-  // findOne(id: number) {
-  //   return `This action returns a #${id} fancy`;
-  // }
+  async findByMarketid(params: any) {
+    const { event_id, market_id } = params;
+
+    const Data_Object = {
+      Odds: [],
+      Bookmaker: [],
+      Fancy: [],
+      Fancy2: [],
+      Fancy3: [],
+      Khado: [],
+      Ball: [],
+      Meter: [],
+      OddEven: [],
+    };
+    const keys: any = await this.cacheManager.get(`${event_id}`);
+    const data = await this.cacheManager.get(`${event_id}::${market_id}`);
+    return data;
+  }
 
   // update(id: number, updateFancyDto: UpdateFancyDto) {
   //   return `This action updates a #${id} fancy`;

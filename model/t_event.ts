@@ -149,10 +149,10 @@ const model = (sequelize: Sequelize, DataType: any) => {
         type: DataType.DATE,
         field: 'updatedon',
       },
-      is_redis_updated: {
-        type: DataType.STRING,
-        defaultValue: true,
-      }
+      // is_redis_updated: {
+      //   type: DataType.STRING,
+      //   defaultValue: true,
+      // }
     },
     {
       timestamps: true,

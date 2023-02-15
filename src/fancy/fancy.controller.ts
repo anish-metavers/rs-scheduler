@@ -11,7 +11,7 @@ import { FancyService } from './fancy.service';
 import { CreateFancyDto } from './dto/create-fancy.dto';
 import { UpdateFancyDto } from './dto/update-fancy.dto';
 
-@Controller('fancy')
+@Controller('/fancy')
 export class FancyController {
   constructor(private readonly fancyService: FancyService) {}
 
@@ -20,17 +20,17 @@ export class FancyController {
   //   return this.fancyService.create(createFancyDto);
   // }
 
-  @Get()
-  async findAll(@Body() createFancyDto: CreateFancyDto) {
-    const getFancy = await this.fancyService.findAll(createFancyDto);
-    // console.log(createFancyDto);
-    return getFancy;
+  @Get('/:event_id')
+  async findByEventid(@Param('event_id') event_id: string) {
+    const getFancyByEventid = await this.fancyService.findByEventid(event_id);
+    return getFancyByEventid;
   }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.fancyService.findOne(+id);
-  // }
+  @Get('/:event_id/:market_id')
+  async findByMarketid(@Param() params: any) {
+    const getFancyByMarket = await this.fancyService.findByMarketid(params);
+    return getFancyByMarket;
+  }
 
   // @Patch(':id')
   // update(@Param('id') id: string, @Body() updateFancyDto: UpdateFancyDto) {

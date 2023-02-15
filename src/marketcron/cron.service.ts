@@ -8,9 +8,9 @@ export class MarketService {
   constructor(@Inject(CACHE_MANAGER) private cacheManager: Cache) {}
   private readonly logger = new Logger(MarketService.name);
 
-  @Cron('*/5 * * * * *')
+  @Cron('*/3 * * * * *')
   async handleCron() {
-    this.logger.debug('Called when the current second is 5');
+    this.logger.debug('Called when the current second is 3');
 
     //--------- MARKET TABLE AND SELECTION TABLE ----------
     let query = `select TS.id as s_id, TM.id as m_id ,

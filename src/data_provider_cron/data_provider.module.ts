@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ScheduleModule } from '@nestjs/schedule';
-import { Cron7Service } from './cron.service';
+import { DataProviderService } from './data_provider.service';
 
 @Module({
   imports: [ScheduleModule.forRoot()],
-  providers: [Cron7Service],
+  providers: [DataProviderService],
 })
-export class Cron7Module {}
+export class DataProviderModule {}
