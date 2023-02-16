@@ -23,7 +23,7 @@ const model = (sequelize: Sequelize, DataType: any) => {
         defaultValue: 0,
       },
       inplay: {
-        type: DataType.INTEGER,
+        type: DataType.STRING,
       },
       is_result: {
         type: DataType.STRING,

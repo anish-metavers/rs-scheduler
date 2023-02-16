@@ -551,13 +551,11 @@ export class CronNewService {
           fancy3Apis.push(axios.get(this.marketIdUrl + fancy3Ids));
         }
       }
-
       const fancy3ApiRes = await Promise.all(fancy3Apis);
 
       for (let apiRes of fancy3ApiRes) {
         let data = apiRes.data.data;
         for (let item of data.items) {
-          // console.log(item)
           if (!item) continue;
 
           const data = fancy3DataAll.filter((i) => i.fancyid == item.market_id);
