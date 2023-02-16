@@ -187,7 +187,8 @@ export class CronNewService {
             const selection = allSelectionData.filter(
               (item) => item.selectionid == oddItem.selectionId,
             );
-
+            // console.log(!oddItem.backPrice1 ? 0.0 : Number(oddItem.backPrice1));
+            // console.log((oddItem.backPrice1))
             if (selection && selection.length > 0) {
               runners.push({
                 name: selection[0].runner_name,
@@ -195,42 +196,66 @@ export class CronNewService {
                 ex: {
                   availableToBack: [
                     {
-                      price: Number(oddItem.backPrice1),
-                      size: parseFloat(
-                        String(oddItem.backSize1).replace(/,/g, ''),
-                      ),
+                      price: !oddItem.backPrice1
+                        ? 0.0
+                        : Number(oddItem.backPrice1),
+                      size: !oddItem.backSize1
+                        ? 0.0
+                        : parseFloat(
+                            String(oddItem.backSize1).replace(/,/g, ''),
+                          ),
                     },
                     {
-                      price: Number(oddItem.backPrice2),
-                      size: parseFloat(
-                        String(oddItem.backSize2).replace(/,/g, ''),
-                      ),
+                      price: !oddItem.backPrice2
+                        ? 0.0
+                        : Number(oddItem.backPrice2),
+                      size: !oddItem.backSize2
+                        ? 0.0
+                        : parseFloat(
+                            String(oddItem.backSize2).replace(/,/g, ''),
+                          ),
                     },
                     {
-                      price: Number(oddItem.backPrice3),
-                      size: parseFloat(
-                        String(oddItem.backSize3).replace(/,/g, ''),
-                      ),
+                      price: !oddItem.backPrice3
+                        ? 0.0
+                        : Number(oddItem.backPrice3),
+                      size: !oddItem.backSize3
+                        ? 0.0
+                        : parseFloat(
+                            String(oddItem.backSize3).replace(/,/g, ''),
+                          ),
                     },
                   ],
                   availableToLay: [
                     {
-                      price: Number(oddItem.layPrice1),
-                      size: parseFloat(
-                        String(oddItem.laySize1).replace(/,/g, ''),
-                      ),
+                      price: !oddItem.layPrice1
+                        ? 0.0
+                        : Number(oddItem.layPrice1),
+                      size: !oddItem.laySize1
+                        ? 0.0
+                        : parseFloat(
+                            String(oddItem.laySize1).replace(/,/g, ''),
+                          ),
                     },
                     {
-                      price: Number(oddItem.layPrice2),
-                      size: parseFloat(
-                        String(oddItem.laySize2).replace(/,/g, ''),
-                      ),
+                      price: !oddItem.layPrice2
+                        ? 0.0
+                        : Number(oddItem.layPrice2),
+                      size: !oddItem.laySize2
+                        ? 0.0
+                        : parseFloat(
+                            String(oddItem.laySize2).replace(/,/g, ''),
+                          ),
                     },
                     {
-                      price: Number(oddItem.layPrice3),
-                      size: parseFloat(
-                        String(oddItem.laySize3).replace(/,/g, ''),
-                      ),
+                      price: !oddItem.layPrice3
+                        ? 0.0
+                        : Number(oddItem.layPrice3),
+                      size: !oddItem.laySize3
+                        ? 0.0
+                        : parseFloat(
+                            String(oddItem.laySize3).replace(/,/g, ''),
+                          ),
                     },
                   ],
                 },

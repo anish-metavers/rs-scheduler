@@ -15,9 +15,9 @@ import { DataProviderModule } from './data_provider_cron/data_provider.module';
     ConfigModule.forRoot(),
     CacheModule.register<ClientOpts>({
       store: redisStore,
-      username: process.env.REDIS_USER,
-      url: process.env.REDIS_URL,
-      password: process.env.REDIS_PASSWORD,
+      // username: process.env.REDIS_USER,
+      // url: process.env.REDIS_URL,
+      // password: process.env.REDIS_PASSWORD,
       ttl: process.env.REDIS_TTL,
       isGlobal: true,
     }),
