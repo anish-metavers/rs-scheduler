@@ -187,7 +187,7 @@ export class CronNewService {
             const selection = allSelectionData.filter(
               (item) => item.selectionid == oddItem.selectionId,
             );
-            // console.log(!oddItem.backPrice1 ? 0.0 : Number(oddItem.backPrice1));
+            // console.log((!oddItem.backPrice1||oddItem.backPrice1=='-') ? 0.0 : Number(oddItem.backPrice1));
             // console.log((oddItem.backPrice1))
             if (selection && selection.length > 0) {
               runners.push({
@@ -196,7 +196,7 @@ export class CronNewService {
                 ex: {
                   availableToBack: [
                     {
-                      price: !oddItem.backPrice1
+                      price: (!oddItem.backPrice1||oddItem.backPrice1=='-')
                         ? 0.0
                         : Number(oddItem.backPrice1),
                       size: !oddItem.backSize1
@@ -206,7 +206,7 @@ export class CronNewService {
                           ),
                     },
                     {
-                      price: !oddItem.backPrice2
+                      price: (!oddItem.backPrice2||oddItem.backPrice2=='-')
                         ? 0.0
                         : Number(oddItem.backPrice2),
                       size: !oddItem.backSize2
@@ -216,7 +216,7 @@ export class CronNewService {
                           ),
                     },
                     {
-                      price: !oddItem.backPrice3
+                      price: (!oddItem.backPrice3||oddItem.backPrice3=='-')
                         ? 0.0
                         : Number(oddItem.backPrice3),
                       size: !oddItem.backSize3
@@ -228,7 +228,7 @@ export class CronNewService {
                   ],
                   availableToLay: [
                     {
-                      price: !oddItem.layPrice1
+                      price: (!oddItem.layPrice1||oddItem.layPrice1=='-')
                         ? 0.0
                         : Number(oddItem.layPrice1),
                       size: !oddItem.laySize1
@@ -238,7 +238,7 @@ export class CronNewService {
                           ),
                     },
                     {
-                      price: !oddItem.layPrice2
+                      price: (!oddItem.layPrice2||oddItem.layPrice2=='-')
                         ? 0.0
                         : Number(oddItem.layPrice2),
                       size: !oddItem.laySize2
@@ -248,7 +248,7 @@ export class CronNewService {
                           ),
                     },
                     {
-                      price: !oddItem.layPrice3
+                      price: (!oddItem.layPrice3||oddItem.layPrice3=='-')
                         ? 0.0
                         : Number(oddItem.layPrice3),
                       size: !oddItem.laySize3
