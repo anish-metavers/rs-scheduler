@@ -187,8 +187,6 @@ export class CronNewService {
             const selection = allSelectionData.filter(
               (item) => item.selectionid == oddItem.selectionId,
             );
-            // console.log((!oddItem.backPrice1||oddItem.backPrice1=='-') ? 0.0 : Number(oddItem.backPrice1));
-            // console.log((oddItem.backPrice1))
             if (selection && selection.length > 0) {
               runners.push({
                 name: selection[0].runner_name,

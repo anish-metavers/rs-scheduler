@@ -4,6 +4,6 @@ import { FancyCronService } from './cron.service';
 import { CronNewService } from './cronNew.service';
 @Module({
   imports: [ScheduleModule.forRoot()],
-  providers: [CronNewService],
+  providers: [FancyCronService,CronNewService],
 })
 export class FancyCronModule {}
