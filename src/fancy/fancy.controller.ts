@@ -37,8 +37,13 @@ export class FancyController {
   //   return this.fancyService.update(+id, updateFancyDto);
   // }
 
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.fancyService.remove(+id);
-  // }
+  @Delete('remove/:event_id')
+  async deleteByMarketid(@Param('event_id') event_id: string) {
+    return await this.fancyService.deleteByEventid(event_id);
+  }
+  @Delete('remove/:event_id/:market_id')
+  async deleteByEventid(@Param() params: any) {
+    const deleteByEventid = await this.fancyService.deleteByMarketid(params);
+    return deleteByEventid;
+  }
 }

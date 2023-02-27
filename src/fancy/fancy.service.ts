@@ -33,7 +33,6 @@ export class FancyService {
         const fetchedData: any = await this.cacheManager.store.mget(
           ...queryKeys,
         );
-        // console.log(fetchedData.length);
         // console.log(Object.keys(keys).length);
         const keysArr = Object.keys(keys);
         for (let i = 0; i < keysArr.length; i++) {
@@ -67,31 +66,50 @@ export class FancyService {
   }
 
   async findByMarketid(params: any) {
-    // console.log(params.event_id);
-    if(params.event_id){}
+    if (params.event_id) {
+    }
     const { event_id, market_id } = params;
-
-    // const Data_Object = {
-    //   Odds: [],
-    //   Bookmaker: [],
-    //   Fancy: [],
-    //   Fancy2: [],
-    //   Fancy3: [],
-    //   Khado: [],
-    //   Ball: [],
-    //   Meter: [],
-    //   OddEven: [],
-    // };
-    // const keys: any = await this.cacheManager.get(`${event_id}`);
     const data = await this.cacheManager.get(`${event_id}::${market_id}`);
-    return data;
+    if (data) {
+      return data;
+    } else {
+      return {
+        message: 'Invalid eventid or marketid'
+      }
+    }
   }
 
   // update(id: number, updateFancyDto: UpdateFancyDto) {
   //   return `This action updates a #${id} fancy`;
   // }
 
-  // remove(id: number) {
-  //   return `This action removes a #${id} fancy`;
-  // }
+  async deleteByEventid(event_id: string) {
+    const allMarkets = await this.cacheManager.get(`${event_id}`);
+
+    if (allMarkets) {
+      const allMarketIds = Object.keys(allMarkets);
+
+      this.cacheManager.del(`${event_id}`);
+      for (let market_id of allMarketIds) {
+        this.cacheManager.del(`${event_id}::${market_id}`);
+      }
+    }
+    return {
+      message: 'Event Deleted',
+    };
+  }
+
+  async deleteByMarketid(params: any) {
+    const { event_id, market_id } = params;
+
+    const allMarkets = await this.cacheManager.get(`${event_id}`);
+    if (allMarkets) {
+      delete allMarkets[market_id];
+      await this.cacheManager.set(`${event_id}`, allMarkets);
+      await this.cacheManager.del(`${event_id}::${market_id}`);
+    }
+    return {
+      message: 'Market Deleted',
+    };
+  }
 }
