@@ -4,8 +4,6 @@ import axios from 'axios';
 import { Cache } from 'cache-manager';
 import { Op, QueryTypes } from 'sequelize';
 import * as moment from 'moment';
-import { Console } from 'console';
-
 @Injectable()
 export class CronNewService {
   constructor(@Inject(CACHE_MANAGER) private cacheManager: Cache) {}
