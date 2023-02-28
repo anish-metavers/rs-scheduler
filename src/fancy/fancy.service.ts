@@ -71,11 +71,9 @@ export class FancyService {
     const { event_id, market_id } = params;
     const data = await this.cacheManager.get(`${event_id}::${market_id}`);
     if (data) {
-      return data;
+      return [data];
     } else {
-      return {
-        message: 'Invalid eventid or marketid'
-      }
+      return [];
     }
   }
 
