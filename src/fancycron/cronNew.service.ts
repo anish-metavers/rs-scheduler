@@ -19,7 +19,7 @@ export class CronNewService {
   joinData;
   joinDataFancy;
   mixedJoinData;
-  @Cron('*/2 * * * * *')
+  @Cron('*/1 * * * * *')
   async handleCron() {
     if (!this.isRunning) {
       try {
@@ -39,7 +39,7 @@ export class CronNewService {
         };
         this.joinDataToRedis = {};
         if (this.timer == 60) {
-          // console.log(' MySql Query time', new Date());
+          console.log(' MySql Query time', new Date());
           this.timer = 0;
           // let query = `
           // select
@@ -85,8 +85,8 @@ export class CronNewService {
           console.timeEnd('Query time');
         }
 
-        console.log('Join Data Length: ' + this.joinData.length);
-        console.log('Join Data Fancy Length: ' + this.joinDataFancy.length);
+        // console.log('Join Data Length: ' + this.joinData.length);
+        // console.log('Join Data Fancy Length: ' + this.joinDataFancy.length);
 
         // console.log('Join Data Item: ', this.joinData[0]);
         // console.log('Join Data Fancy Item: ', this.joinDataFancy[0]);
@@ -158,13 +158,13 @@ export class CronNewService {
           {},
         ]);
         console.timeEnd('Redis Update');
-
-        this.timer += 1;
-        this.dataToInsertInRedis = [];
-
-        console.timeEnd('Total Time');
-        console.log('------------------------------------------------');
-      } catch (error) {}
+      } catch (error) {
+        console.log('Cron Handler Error: ', error);
+      }
+      this.timer += 1;
+      this.dataToInsertInRedis = [];
+      console.timeEnd('Total Time');
+      console.log('------------------------------------------------');
       this.isRunning = false;
     }
   }

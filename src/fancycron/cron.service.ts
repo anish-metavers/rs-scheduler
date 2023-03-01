@@ -816,9 +816,9 @@ export class FancyCronService {
         this.IsRunning = false;
       }
       this.logger.debug('End Cron');
-      
+
       console.timeEnd('total time');
-      
+
       console.timeEnd('Total Time');
       this.IsRunning = false;
     }
