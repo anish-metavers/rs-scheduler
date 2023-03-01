@@ -8,7 +8,7 @@ export class MarketService {
   constructor(@Inject(CACHE_MANAGER) private cacheManager: Cache) {}
   private readonly logger = new Logger(MarketService.name);
 
-  @Cron('*/3 * * * * *')
+  // @Cron('*/3 * * * * *')
   async handleCron() {
     this.logger.debug('Market cron  3');
 

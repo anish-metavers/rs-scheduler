@@ -15,7 +15,7 @@ export class CronNewService {
   marketIdUrl = 'http://3.108.233.31:3005/v1/odds/';
   joinDataToRedis = {};
   dataToInsertInRedis = [];
-  timer = 60;
+  timer = 10;
   joinData;
   joinDataFancy;
   mixedJoinData;
@@ -38,7 +38,7 @@ export class CronNewService {
           OddEven: [],
         };
         this.joinDataToRedis = {};
-        if (this.timer == 60) {
+        if (this.timer == 10) {
           console.log(' MySql Query time', new Date());
           this.timer = 0;
           // let query = `
@@ -545,11 +545,11 @@ export class CronNewService {
       }
       // console.log('--------------------------------');
       // console.log('---- MatchOdd Api Length: ', matchOddsApis.length, '----');
-      console.time('Match Odd Api Time: ');
+      // console.time('Match Odd Api Time: ');
 
       const matchOddsApiRes = await Promise.all(matchOddsApis);
 
-      console.timeEnd('Match Odd Api Time: ');
+      // console.timeEnd('Match Odd Api Time: ');
       // console.log('--------------------------------');
 
       for (let apiRes of matchOddsApiRes) {
@@ -758,11 +758,11 @@ export class CronNewService {
       //   '----',
       // );
 
-      console.time('Book Maker Api Time: ');
+      // console.time('Book Maker Api Time: ');
 
       const bookMakerApiRes = await Promise.all(bookMakersApis);
 
-      console.timeEnd('Book Maker Api Time: ');
+      // console.timeEnd('Book Maker Api Time: ');
       // console.log('--------------------------------');
 
       for (let apiRes of bookMakerApiRes) {

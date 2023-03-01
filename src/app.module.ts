@@ -22,7 +22,7 @@ import { DataProviderModule } from './data_provider_cron/data_provider.module';
       ttl: process.env.REDIS_TTL,
       isGlobal: true,
     }),
-    MarketModule,
+    // MarketModule,
     FancyModule,
     FancyCronModule,
     // ActiveMatchModule,
