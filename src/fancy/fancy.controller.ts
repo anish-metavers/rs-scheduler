@@ -8,17 +8,18 @@ import {
   Delete,
 } from '@nestjs/common';
 import { FancyService } from './fancy.service';
-import { CreateFancyDto } from './dto/create-fancy.dto';
+import { ActiveMatchDto, CreateFancyDto } from './dto/create-fancy.dto';
 import { UpdateFancyDto } from './dto/update-fancy.dto';
 
 @Controller('/fancy')
 export class FancyController {
   constructor(private readonly fancyService: FancyService) {}
 
-  // @Post()
-  // create(@Body() createFancyDto: CreateFancyDto) {
-  //   return this.fancyService.create(createFancyDto);
-  // }
+  //Active match apis sportid wise
+  @Get('/active_match')
+  activeMatchApis(@Body() activeMatchDto: ActiveMatchDto) {
+    return this.fancyService.activeMatchApis(activeMatchDto);
+  }
 
   @Get('/:event_id')
   async findByEventid(@Param('event_id') event_id: string) {
@@ -31,11 +32,6 @@ export class FancyController {
     const getFancyByMarket = await this.fancyService.findByMarketid(params);
     return getFancyByMarket;
   }
-
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateFancyDto: UpdateFancyDto) {
-  //   return this.fancyService.update(+id, updateFancyDto);
-  // }
 
   @Delete('remove/:event_id')
   async deleteByMarketid(@Param('event_id') event_id: string) {

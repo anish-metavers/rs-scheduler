@@ -25,7 +25,7 @@ import { DataProviderModule } from './data_provider_cron/data_provider.module';
     // MarketModule,
     FancyModule,
     FancyCronModule,
-    // ActiveMatchModule,
+    ActiveMatchModule,
     // Cron1Module,
     // Cron2Module,
     // Cron3Module,

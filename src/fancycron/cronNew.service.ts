@@ -410,6 +410,7 @@ export class CronNewService {
               }
 
               const key = `${data.eventid}::${data.marketid}`;
+              console.log(key);
               const value = Bookmaker;
 
               this.dataToInsertInRedis.push(key);

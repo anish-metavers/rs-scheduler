@@ -1,6 +1,6 @@
 import { CACHE_MANAGER, Inject, Injectable } from '@nestjs/common';
 import { Cache } from 'cache-manager';
-import { CreateFancyDto } from './dto/create-fancy.dto';
+import { ActiveMatchDto, CreateFancyDto } from './dto/create-fancy.dto';
 import { UpdateFancyDto } from './dto/update-fancy.dto';
 
 @Injectable()
@@ -77,10 +77,6 @@ export class FancyService {
     }
   }
 
-  // update(id: number, updateFancyDto: UpdateFancyDto) {
-  //   return `This action updates a #${id} fancy`;
-  // }
-
   async deleteByEventid(event_id: string) {
     const allMarkets = await this.cacheManager.get(`${event_id}`);
 
@@ -108,6 +104,24 @@ export class FancyService {
     }
     return {
       message: 'Market Deleted',
+    };
+  }
+
+  async activeMatchApis(activeMatchDto: ActiveMatchDto) {
+    const { sportid } = activeMatchDto;
+
+    if (sportid != '4')
+      return {
+        message: 'Invalid sportid',
+      };
+    const data: any = await this.cacheManager.get(`sportId:${sportid}`);
+
+    const keys = data.map((item) => `sportId:${sportid}::${item}`);
+    const resData = await this.cacheManager.store.mget(...keys);
+    return {
+      status: true,
+      message: null,
+      data: resData,
     };
   }
 }
