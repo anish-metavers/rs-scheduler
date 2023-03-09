@@ -1,11 +1,34 @@
-import { CACHE_MANAGER, Inject, Injectable } from '@nestjs/common';
+import {
+  CACHE_MANAGER,
+  HttpException,
+  Inject,
+  Injectable,
+} from '@nestjs/common';
 import { Cache } from 'cache-manager';
-import { ActiveMatchDto, CreateFancyDto } from './dto/create-fancy.dto';
-import { UpdateFancyDto } from './dto/update-fancy.dto';
+import * as _ from 'lodash';
+// import { ActiveMatchDto, CreateFancyDto } from './dto/create-fancy.dto';
+// import { UpdateFancyDto } from './dto/update-fancy.dto';
 
 @Injectable()
 export class FancyService {
   constructor(@Inject(CACHE_MANAGER) private cacheManager: Cache) {}
+
+  async activeMatchApis(sportid: any) {
+    if (sportid != '4')
+      return {
+        message: 'Invalid sportid',
+      };
+    const data: any = await this.cacheManager.get(`sportId:${sportid}`);
+
+    const keys = data.map((item) => `sportId:${sportid}::${item}`);
+    let resData = await this.cacheManager.store.mget(...keys);
+    resData = _.orderBy(resData, ['openDate'], ['desc']);
+    return {
+      status: true,
+      message: null,
+      data: resData,
+    };
+  }
 
   async findByEventid(event_id: string) {
     try {
@@ -77,6 +100,38 @@ export class FancyService {
     }
   }
 
+  async deleteByMatchid(params: any) {
+    const { sportid, matchid } = params;
+    console.log(params);
+
+    const checkStatus = await global.DB.T_market.findOne({
+      where: { eventid: matchid, isactive: 0 },
+    });
+
+    if (!checkStatus)
+      throw new HttpException({ message: 'Status is Active!' }, 400);
+
+    const allMatchIds: any = await this.cacheManager.get(`sportId:${sportid}`);
+    // return { allMatchIds, inc: allMatchIds.includes() };
+    if (!allMatchIds.includes(Number(matchid)))
+      throw new HttpException({ message: 'Not Exist on Redis' }, 400);
+
+    const index = allMatchIds.indexOf(matchid);
+    allMatchIds.splice(index, 1);
+
+    // await this.cacheManager.set(`sportId:${sportid}`, allMatchIds);
+    // const ans = await this.cacheManager.get(`sportId:${sportid}::${matchid}`);
+    await this.cacheManager.del(`sportId:${sportid}::${matchid}`);
+    // return ans;
+    // if (delMatchid) {
+    //   delete delMatchid[matchId];
+    //   await this.cacheManager.del(`${sportid}::${matchId}`);
+    // }
+    // return {
+    //   message: 'Matchid Deleted',
+    // };
+  }
+
   async deleteByEventid(event_id: string) {
     const allMarkets = await this.cacheManager.get(`${event_id}`);
 
@@ -104,24 +159,6 @@ export class FancyService {
     }
     return {
       message: 'Market Deleted',
-    };
-  }
-
-  async activeMatchApis(activeMatchDto: ActiveMatchDto) {
-    const { sportid } = activeMatchDto;
-
-    if (sportid != '4')
-      return {
-        message: 'Invalid sportid',
-      };
-    const data: any = await this.cacheManager.get(`sportId:${sportid}`);
-
-    const keys = data.map((item) => `sportId:${sportid}::${item}`);
-    const resData = await this.cacheManager.store.mget(...keys);
-    return {
-      status: true,
-      message: null,
-      data: resData,
     };
   }
 }

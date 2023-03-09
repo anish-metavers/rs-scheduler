@@ -18,33 +18,33 @@ const model = (sequelize: Sequelize, DataType: any) => {
       eventid: {
         type: DataType.INTEGER,
       },
-      is_fs_market_inactive: {
-        type: DataType.INTEGER,
-        defaultValue: 0,
-      },
+      // is_fs_market_inactive: {
+      //   type: DataType.INTEGER,
+      //   defaultValue: 0,
+      // },
       inplay: {
         type: DataType.STRING,
       },
-      is_result: {
-        type: DataType.STRING,
-        defaultValue: 0,
-      },
-      is_fs_pushed: {
-        type: DataTypes.INTEGER,
-        defaultValue: 0,
-      },
+      // is_result: {
+      //   type: DataType.STRING,
+      //   defaultValue: 0,
+      // },
+      // is_fs_pushed: {
+      //   type: DataTypes.INTEGER,
+      //   defaultValue: 0,
+      // },
       isactive: {
         type: DataTypes.STRING,
         defaultValue: true,
       },
-      ispause: {
-        type: DataType.INTEGER,
-        defaultValue: 0,
-      },
-      isresultfinished: {
-        type: DataTypes.INTEGER,
-        defaultValue: 0,
-      },
+      // ispause: {
+      //   type: DataType.INTEGER,
+      //   defaultValue: 0,
+      // },
+      // isresultfinished: {
+      //   type: DataTypes.INTEGER,
+      //   defaultValue: 0,
+      // },
       marketid: {
         type: DataTypes.STRING,
       },
@@ -54,24 +54,24 @@ const model = (sequelize: Sequelize, DataType: any) => {
       matchname: {
         type: DataTypes.STRING,
       },
-      odds_suspension_on_bm_status: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: true,
-      },
-      oddsprovider: {
-        type: DataTypes.STRING,
-        defaultValue: 'RS',
-      },
+      // odds_suspension_on_bm_status: {
+      //   type: DataTypes.BOOLEAN,
+      //   defaultValue: true,
+      // },
+      // oddsprovider: {
+      //   type: DataTypes.STRING,
+      //   defaultValue: 'RS',
+      // },
       opendate: {
         type: DataTypes.DATE,
       },
-      pause_by_admin: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: true,
-      },
-      resultstatuscron: {
-        type: DataTypes.INTEGER,
-      },
+      // pause_by_admin: {
+      //   type: DataTypes.BOOLEAN,
+      //   defaultValue: true,
+      // },
+      // resultstatuscron: {
+      //   type: DataTypes.INTEGER,
+      // },
       seriesid: {
         type: DataTypes.INTEGER,
       },
@@ -109,10 +109,10 @@ const model = (sequelize: Sequelize, DataType: any) => {
         type: DataTypes.INTEGER,
         defaultValue: 10000,
       },
-      // is_redis_updated: {
-      //   type: DataTypes.STRING,
-      //   defaultValue: true,
-      // },
+      is_redis_updated: {
+        type: DataTypes.STRING,
+        defaultValue: true,
+      },
     },
     {
       timestamps: true,

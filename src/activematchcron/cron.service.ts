@@ -9,19 +9,19 @@ export class ActiveMatchService {
   constructor(@Inject(CACHE_MANAGER) private cacheManager: Cache) {}
   private readonly logger = new Logger(ActiveMatchService.name);
 
-  @Cron('*/1 * * * *')
+  @Cron('*/3 * * * * *')
   async handleCron() {
     this.logger.debug('Active match cron running..');
     const marketApisUrl = 'http://3.108.233.31:3005/v1/odds/';
     try {
-      const Data_Object = {};
+      // const Data_Object = {};
       let query = `
       select eventid, isactive, marketid, marketname, 
       matchname, startdate, sportid 
       from t_market
       where
-      (marketname='Match Odds') 
-      OR (marketname='Bookmaker 0%Comm') 
+      (marketname='Match Odds'
+      OR marketname='Bookmaker 0%Comm') 
       and sportid = 4 and isactive = 1
       group by eventid, marketid
       `;
@@ -59,98 +59,103 @@ export class ActiveMatchService {
       const dataToInsertInRedis = [];
 
       for (const item of apiData.items) {
-        const marketid = item.market_id;
+        if (item) {
+          const marketid = item.market_id;
 
-        const data = joinData.find((item) => item.marketid === marketid);
+          const data = joinData.find((item) => item.marketid === marketid);
 
-        const { eventid, marketname, matchname, startdate } = data;
+          const { eventid, marketname, matchname, startdate } = data;
 
-        // console.log('marketname: ', marketname);
+          // console.log('marketname: ', marketname);
 
-        if (marketname) {
-          const dataObj: any = {
-            matchName: matchname,
-            matchId: eventid,
-            openDate: startdate,
-          };
+          if (marketname) {
+            const dataObj: any = {
+              matchName: matchname,
+              matchId: eventid,
+              openDate: startdate,
+            };
 
-          if (marketname === 'Match Odds') {
-            dataObj.inPlay = item.inplay;
-            if (item.odds.length == 2 || item.odds.length == 3) {
-              dataObj.team1Back =
-                !item.odds[0].backPrice1 || item.odds[0].backPrice1 == '-'
-                  ? 0.0
-                  : Number(item.odds[0].backPrice1);
-              dataObj.team1Lay =
-                !item.odds[0].layPrice1 || item.odds[0].layPrice1 == '-'
-                  ? 0.0
-                  : Number(item.odds[0].layPrice1);
+            if (marketname === 'Match Odds') {
+              dataObj.inPlay = item.inplay;
+              if (item.odds.length == 2 || item.odds.length == 3) {
+                dataObj.team1Back =
+                  !item.odds[0].backPrice1 || item.odds[0].backPrice1 == '-'
+                    ? 0.0
+                    : Number(item.odds[0].backPrice1);
+                dataObj.team1Lay =
+                  !item.odds[0].layPrice1 || item.odds[0].layPrice1 == '-'
+                    ? 0.0
+                    : Number(item.odds[0].layPrice1);
 
-              dataObj.team2Back =
-                !item.odds[1].backPrice1 || item.odds[1].backPrice1 == '-'
-                  ? 0.0
-                  : Number(item.odds[1].backPrice1);
-              dataObj.team2Lay =
-                !item.odds[1].layPrice1 || item.odds[1].layPrice1 == '-'
-                  ? 0.0
-                  : Number(item.odds[1].layPrice1);
+                dataObj.team2Back =
+                  !item.odds[1].backPrice1 || item.odds[1].backPrice1 == '-'
+                    ? 0.0
+                    : Number(item.odds[1].backPrice1);
+                dataObj.team2Lay =
+                  !item.odds[1].layPrice1 || item.odds[1].layPrice1 == '-'
+                    ? 0.0
+                    : Number(item.odds[1].layPrice1);
 
-              dataObj.drawBack = 0.0;
-              dataObj.drawLay = 0.0;
-              dataObj.bm = true;
+                dataObj.drawBack = 0.0;
+                dataObj.drawLay = 0.0;
+                dataObj.bm = true;
+              }
+
+              if (item.odds.length == 3) {
+                dataObj.drawBack =
+                  !item.odds[2].backPrice1 || item.odds[2].backPrice1 == '-'
+                    ? 0.0
+                    : Number(item.odds[2].backPrice1);
+                dataObj.drawLay =
+                  !item.odds[2].layPrice1 || item.odds[2].layPrice1 == '-'
+                    ? 0.0
+                    : Number(item.odds[2].layPrice1);
+                dataObj.bm = true;
+              }
+            } else if (marketname === 'Bookmaker 0%Comm') {
+              if (item.runners.length == 2 || item.runners.length == 3) {
+                dataObj.team1Back =
+                  !item.runners[0].backPrice1 ||
+                  item.runners[0].backPrice1 == '-'
+                    ? 0.0
+                    : Number(item.runners[0].backPrice1);
+                dataObj.team1Lay =
+                  !item.runners[0].layPrice1 || item.runners[0].layPrice1 == '-'
+                    ? 0.0
+                    : Number(item.runners[0].layPrice1);
+
+                dataObj.team2Back =
+                  !item.runners[1].backPrice1 ||
+                  item.runners[1].backPrice1 == '-'
+                    ? 0.0
+                    : Number(item.runners[1].backPrice1);
+                dataObj.team2Lay =
+                  !item.runners[1].layPrice1 || item.runners[1].layPrice1 == '-'
+                    ? 0.0
+                    : Number(item.runners[1].layPrice1);
+
+                dataObj.drawBack = 0.0;
+                dataObj.drawLay = 0.0;
+                dataObj.bm = true;
+              }
+
+              if (item.runners.length == 3) {
+                dataObj.drawBack =
+                  !item.runners[2].backPrice1 ||
+                  item.runners[2].backPrice1 == '-'
+                    ? 0.0
+                    : Number(item.runners[2].backPrice1);
+                dataObj.drawLay =
+                  !item.runners[2].layPrice1 || item.runners[2].layPrice1 == '-'
+                    ? 0.0
+                    : Number(item.runners[2].layPrice1);
+                dataObj.bm = true;
+              }
             }
 
-            if (item.odds.length == 3) {
-              dataObj.drawBack =
-                !item.odds[2].backPrice1 || item.odds[2].backPrice1 == '-'
-                  ? 0.0
-                  : Number(item.odds[2].backPrice1);
-              dataObj.drawLay =
-                !item.odds[2].layPrice1 || item.odds[2].layPrice1 == '-'
-                  ? 0.0
-                  : Number(item.odds[2].layPrice1);
-              dataObj.bm = true;
-            }
-          } else if (marketname === 'Bookmaker 0%Comm') {
-            if (item.runners.length == 2 || item.runners.length == 3) {
-              dataObj.team1Back =
-                !item.runners[0].backPrice1 || item.runners[0].backPrice1 == '-'
-                  ? 0.0
-                  : Number(item.runners[0].backPrice1);
-              dataObj.team1Lay =
-                !item.runners[0].layPrice1 || item.runners[0].layPrice1 == '-'
-                  ? 0.0
-                  : Number(item.runners[0].layPrice1);
-
-              dataObj.team2Back =
-                !item.runners[1].backPrice1 || item.runners[1].backPrice1 == '-'
-                  ? 0.0
-                  : Number(item.runners[1].backPrice1);
-              dataObj.team2Lay =
-                !item.runners[1].layPrice1 || item.runners[1].layPrice1 == '-'
-                  ? 0.0
-                  : Number(item.runners[1].layPrice1);
-
-              dataObj.drawBack = 0.0;
-              dataObj.drawLay = 0.0;
-              dataObj.bm = true;
-            }
-
-            if (item.runners.length == 3) {
-              dataObj.drawBack =
-                !item.runners[2].backPrice1 || item.runners[2].backPrice1 == '-'
-                  ? 0.0
-                  : Number(item.runners[2].backPrice1);
-              dataObj.drawLay =
-                !item.runners[2].layPrice1 || item.runners[2].layPrice1 == '-'
-                  ? 0.0
-                  : Number(item.runners[2].layPrice1);
-              dataObj.bm = true;
-            }
+            dataToInsertInRedis.push(dataObj);
+            // console.log('Data Obj: ', dataObj);
           }
-
-          dataToInsertInRedis.push(dataObj);
-          // console.log('Data Obj: ', dataObj);
         }
       }
       const key = `{sportid: dataToInsertInRedis}`;
