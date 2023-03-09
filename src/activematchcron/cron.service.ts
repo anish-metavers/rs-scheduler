@@ -9,7 +9,7 @@ export class ActiveMatchService {
   constructor(@Inject(CACHE_MANAGER) private cacheManager: Cache) {}
   private readonly logger = new Logger(ActiveMatchService.name);
 
-  @Cron('*/3 * * * * *')
+  @Cron('*/1 * * * *')
   async handleCron() {
     this.logger.debug('Active match cron running..');
     const marketApisUrl = 'http://3.108.233.31:3005/v1/odds/';
