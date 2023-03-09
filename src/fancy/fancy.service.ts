@@ -102,7 +102,6 @@ export class FancyService {
 
   async deleteByMatchid(params: any) {
     const { sportid, matchid } = params;
-    console.log(params);
 
     const checkStatus = await global.DB.T_market.findOne({
       where: { eventid: matchid, isactive: 0 },
@@ -113,23 +112,26 @@ export class FancyService {
 
     const allMatchIds: any = await this.cacheManager.get(`sportId:${sportid}`);
     // return { allMatchIds, inc: allMatchIds.includes() };
-    if (!allMatchIds.includes(Number(matchid)))
-      throw new HttpException({ message: 'Not Exist on Redis' }, 400);
+    const ans = await this.cacheManager.get(`sportId:${sportid}::${matchid}`);
 
-    const index = allMatchIds.indexOf(matchid);
-    allMatchIds.splice(index, 1);
-
-    // await this.cacheManager.set(`sportId:${sportid}`, allMatchIds);
-    // const ans = await this.cacheManager.get(`sportId:${sportid}::${matchid}`);
     await this.cacheManager.del(`sportId:${sportid}::${matchid}`);
-    // return ans;
+
+    if (allMatchIds.includes(Number(matchid))) {
+      const index = allMatchIds.indexOf(matchid);
+
+      if (index !== -1) {
+        allMatchIds.splice(index, 1);
+        await this.cacheManager.set(`sportId:${sportid}`, allMatchIds);
+      }
+    }
+
     // if (delMatchid) {
     //   delete delMatchid[matchId];
     //   await this.cacheManager.del(`${sportid}::${matchId}`);
     // }
-    // return {
-    //   message: 'Matchid Deleted',
-    // };
+    return {
+      message: 'Matchid Deleted',
+    };
   }
 
   async deleteByEventid(event_id: string) {
