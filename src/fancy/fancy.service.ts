@@ -22,7 +22,7 @@ export class FancyService {
 
     const keys = data.map((item) => `sportId:${sportid}::${item}`);
     let resData = await this.cacheManager.store.mget(...keys);
-    resData = _.orderBy(resData, ['openDate'], ['desc']);
+    resData = _.orderBy(resData, ['openDate'], ['asc']);
     return {
       status: true,
       message: null,
