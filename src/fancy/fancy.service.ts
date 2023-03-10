@@ -1,35 +1,16 @@
 import {
   CACHE_MANAGER,
-  HttpException,
   Inject,
   Injectable,
 } from '@nestjs/common';
 import { Cache } from 'cache-manager';
 import * as _ from 'lodash';
-// import { ActiveMatchDto, CreateFancyDto } from './dto/create-fancy.dto';
-// import { UpdateFancyDto } from './dto/update-fancy.dto';
 
 @Injectable()
 export class FancyService {
   constructor(@Inject(CACHE_MANAGER) private cacheManager: Cache) {}
 
-  async activeMatchApis(sportid: any) {
-    if (sportid != '4')
-      return {
-        message: 'Invalid sportid',
-      };
-    const data: any = await this.cacheManager.get(`sportId:${sportid}`);
-
-    const keys = data.map((item) => `sportId:${sportid}::${item}`);
-    let resData = await this.cacheManager.store.mget(...keys);
-    resData = _.orderBy(resData, ['openDate'], ['asc']);
-    return {
-      status: true,
-      message: null,
-      data: resData,
-    };
-  }
-
+  //FIND APIS BY EVENT ID
   async findByEventid(event_id: string) {
     try {
       const Data_Object = {
@@ -88,6 +69,7 @@ export class FancyService {
     }
   }
 
+  //FIND APIS BY MARKET ID
   async findByMarketid(params: any) {
     if (params.event_id) {
     }
@@ -100,40 +82,7 @@ export class FancyService {
     }
   }
 
-  async deleteByMatchid(params: any) {
-    const { sportid, matchid } = params;
-
-    const checkStatus = await global.DB.T_market.findOne({
-      where: { eventid: matchid, isactive: 0 },
-    });
-
-    if (!checkStatus)
-      throw new HttpException({ message: 'Status is Active!' }, 400);
-
-    const allMatchIds: any = await this.cacheManager.get(`sportId:${sportid}`);
-    // return { allMatchIds, inc: allMatchIds.includes() };
-    const ans = await this.cacheManager.get(`sportId:${sportid}::${matchid}`);
-
-    await this.cacheManager.del(`sportId:${sportid}::${matchid}`);
-
-    if (allMatchIds.includes(Number(matchid))) {
-      const index = allMatchIds.indexOf(matchid);
-
-      if (index !== -1) {
-        allMatchIds.splice(index, 1);
-        await this.cacheManager.set(`sportId:${sportid}`, allMatchIds);
-      }
-    }
-
-    // if (delMatchid) {
-    //   delete delMatchid[matchId];
-    //   await this.cacheManager.del(`${sportid}::${matchId}`);
-    // }
-    return {
-      message: 'Matchid Deleted',
-    };
-  }
-
+  //DELETE APIS BY EVENT ID
   async deleteByEventid(event_id: string) {
     const allMarkets = await this.cacheManager.get(`${event_id}`);
 
@@ -150,6 +99,7 @@ export class FancyService {
     };
   }
 
+  //DELETE APIS BY MARKET ID
   async deleteByMarketid(params: any) {
     const { event_id, market_id } = params;
 
