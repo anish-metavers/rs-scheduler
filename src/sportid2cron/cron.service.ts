@@ -10,7 +10,7 @@ export class Sportid2CronService {
   constructor(@Inject(CACHE_MANAGER) private cacheManager: Cache) {}
   private readonly logger = new Logger(Sportid2CronService.name);
 
-  @Cron('*/1 * * * * *')
+  @Cron('*/1 * * * *')
   async handleCron() {
     this.logger.debug('Active match cron started with sportid 2');
     const marketApisUrl = 'http://3.108.233.31:3005/v1/odds/';
@@ -25,7 +25,7 @@ export class Sportid2CronService {
       TE.isactive = 1 AND
       (TM.marketname='Match Odds'
       OR TM.marketname='Bookmaker 0%Comm') 
-      and TM.sportid = 4 and TM.isactive = 1
+      and TM.sportid = 2 and TM.isactive = 1
       group by TM.eventid, TM.marketid
       `;
       const joinData = await global.DB.sequelize.query(query, {

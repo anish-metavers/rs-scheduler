@@ -9,7 +9,7 @@ export class Sportid4CronService {
   constructor(@Inject(CACHE_MANAGER) private cacheManager: Cache) {}
   private readonly logger = new Logger(Sportid4CronService.name);
 
-  @Cron('*/1 * * * * *')
+  @Cron('*/1 * * * *')
   async handleCron() {
     this.logger.debug('Active match cron started with sportid 4');
     const marketApisUrl = 'http://3.108.233.31:3005/v1/odds/';
