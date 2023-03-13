@@ -13,6 +13,7 @@ import { DataProviderModule } from './data_provider_cron/data_provider.module';
 import { Sportid1CronModule } from './sportid1cron/cron.module';
 import { Sportid2CronModule } from './sportid2cron/cron.module';
 import { ActivematchModule } from './activematch/activematch.module';
+import { AutoDeleteModule } from './auto_delete_cron/cron.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { ActivematchModule } from './activematch/activematch.module';
     Sportid4CronModule,
     Sportid1CronModule,
     Sportid2CronModule,
+    AutoDeleteModule,
     ActivematchModule
     // Cron1Module,
     // Cron2Module,
